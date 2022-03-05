@@ -1,8 +1,18 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateTweetDto } from './dto/create-tweet.dto';
 import { TweetsService } from './tweets.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('tweets')
 export class TweetsController {
   constructor(private readonly tweetsService: TweetsService) {}
