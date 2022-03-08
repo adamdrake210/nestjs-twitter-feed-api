@@ -6,7 +6,7 @@ import { CreateTweetInfoDto } from './dto/create-tweetinfo.dto';
 import { TweetInfo } from './entities/tweetinfo.entity';
 
 @Injectable()
-export class TweetsInfoService {
+export class TweetInfoService {
   constructor(
     @InjectRepository(TweetInfo)
     private readonly tweetInfoRepository: Repository<TweetInfo>,
