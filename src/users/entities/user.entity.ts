@@ -1,4 +1,4 @@
-import { Tweet } from 'src/tweets/entities/tweet.entity';
+import { TweetInfo } from 'src/tweetinfo/entities/tweetinfo.entity';
 import {
   Column,
   Entity,
@@ -21,7 +21,10 @@ export class User {
   @Column({ unique: true })
   twitterhandle: string;
 
-  @OneToOne(() => Tweet)
+  @OneToOne(() => TweetInfo, {
+    eager: true,
+    cascade: true,
+  })
   @JoinColumn()
-  tweet: Tweet;
+  tweetinfo: TweetInfo;
 }

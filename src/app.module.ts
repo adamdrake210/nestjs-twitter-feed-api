@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { TweetsModule } from './tweets/tweets.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { TweetinfoModule } from './tweetinfo/tweetinfo.module';
 import * as Joi from '@hapi/joi';
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import * as Joi from '@hapi/joi';
     }),
     AuthModule,
     UsersModule,
+    TweetinfoModule,
   ],
   controllers: [AppController],
   providers: [],
