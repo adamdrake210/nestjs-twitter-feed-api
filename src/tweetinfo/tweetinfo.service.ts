@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Repository } from 'typeorm';
 import { CreateTweetInfoDto } from './dto/create-tweetinfo.dto';
+import { UpdateTweetInfoDto } from './dto/update-tweetinfo.dto';
 import { TweetInfo } from './entities/tweetinfo.entity';
 
 @Injectable()
@@ -31,6 +32,17 @@ export class TweetInfoService {
 
   async create(createTweetInfoDto: CreateTweetInfoDto) {
     const tweetInfo = await this.tweetInfoRepository.create(createTweetInfoDto);
+    return this.tweetInfoRepository.save(tweetInfo);
+  }
+
+  async update(id: string, updateTweetInfoDto: UpdateTweetInfoDto) {
+    const tweetInfo = await this.tweetInfoRepository.preload({
+      id: +id,
+      ...updateTweetInfoDto,
+    });
+    if (!tweetInfo) {
+      throw new NotFoundException(`Tweetinfo for #${id} not found`);
+    }
     return this.tweetInfoRepository.save(tweetInfo);
   }
 

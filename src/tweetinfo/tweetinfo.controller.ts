@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -11,6 +12,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateTweetInfoDto } from './dto/create-tweetinfo.dto';
+import { UpdateTweetInfoDto } from './dto/update-tweetinfo.dto';
 import { TweetInfoService } from './tweetinfo.service';
 
 @UseGuards(JwtAuthGuard)
@@ -31,6 +33,14 @@ export class TweetinfoController {
   @Post()
   create(@Body() createTweetInfoDto: CreateTweetInfoDto) {
     return this.tweetInfoService.create(createTweetInfoDto);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateTweetInfoDto: UpdateTweetInfoDto,
+  ) {
+    return this.tweetInfoService.update(id, updateTweetInfoDto);
   }
 
   @Delete(':id')
