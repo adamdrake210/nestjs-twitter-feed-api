@@ -12,7 +12,16 @@ export class UsersService {
   ) {}
 
   async findOne(username: string) {
-    return this.userRepository.findOne({ username });
+    return this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+  }
+
+  async findOneUser(id: string) {
+    const { password, ...result } = await this.userRepository.findOne(id);
+    return result;
   }
 
   async create(createUserDto: CreateUserDto) {
