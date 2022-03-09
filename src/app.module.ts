@@ -10,20 +10,25 @@ import * as Joi from '@hapi/joi';
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
-        DATABASE_HOST: Joi.required(),
-        DATABASE_PORT: Joi.number(),
+        DATABASE_URL: Joi.string().required(),
+        // DATABASE_HOST: Joi.required(),
+        // DATABASE_PORT: Joi.number(),
       }),
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        host: process.env.DATABASE_HOST,
-        port: +process.env.DATABASE_PORT,
-        username: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME,
+        url: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+        // host: process.env.DATABASE_HOST,
+        // port: +process.env.DATABASE_PORT,
+        // username: process.env.DATABASE_USER,
+        // password: process.env.DATABASE_PASSWORD,
+        // database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
-        synchronize: process.env.NODE_ENV === 'development', // disable for prod
+        synchronize: true, // disable for prod
       }),
     }),
     AuthModule,

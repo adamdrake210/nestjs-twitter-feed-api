@@ -44,6 +44,7 @@ export class AuthService {
       createdUser.password = undefined;
       return createdUser;
     } catch (error) {
+      console.log('server error: ', error);
       throw new HttpException(
         'Something went wrong',
         HttpStatus.INTERNAL_SERVER_ERROR,
