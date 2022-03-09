@@ -21,12 +21,17 @@ async function bootstrap() {
     .setTitle('LazyTweeting')
     .setDescription('Tweeting app for lazy peeps')
     .setVersion('0.0.1')
-    .addBearerAuth()
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    customSiteTitle: 'Lazy Tweet API docs',
+  });
 
   await app.listen(process.env.PORT || 3003);
 }
