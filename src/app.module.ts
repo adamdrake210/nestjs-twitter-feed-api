@@ -23,7 +23,7 @@ import * as Joi from '@hapi/joi';
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
-        synchronize: true, // disable for prod
+        synchronize: process.env.NODE_ENV === 'development', // disable for prod
       }),
     }),
     AuthModule,
