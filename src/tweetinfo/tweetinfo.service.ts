@@ -24,9 +24,8 @@ export class TweetInfoService {
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
     return this.tweetInfoRepository.find({
-      relations: ['user'],
-      skip: offset,
-      take: limit,
+      skip: offset || 0,
+      take: limit || 10,
     });
   }
 

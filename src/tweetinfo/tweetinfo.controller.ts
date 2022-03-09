@@ -17,6 +17,7 @@ import { UpdateTweetInfoDto } from './dto/update-tweetinfo.dto';
 import { TweetInfoService } from './tweetinfo.service';
 import express from 'express';
 import { User } from 'src/users/entities/user.entity';
+import { ApiResponse } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tweetinfo')
@@ -33,6 +34,10 @@ export class TweetinfoController {
     return this.tweetInfoService.findOne('' + id);
   }
 
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden if user already has an assigned tweetinfo.',
+  })
   @Post()
   create(
     @Body() createTweetInfoDto: CreateTweetInfoDto,
