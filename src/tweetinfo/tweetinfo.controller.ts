@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -14,6 +15,8 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateTweetInfoDto } from './dto/create-tweetinfo.dto';
 import { UpdateTweetInfoDto } from './dto/update-tweetinfo.dto';
 import { TweetInfoService } from './tweetinfo.service';
+import express from 'express';
+import { User } from 'src/users/entities/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tweetinfo')
@@ -31,8 +34,11 @@ export class TweetinfoController {
   }
 
   @Post()
-  create(@Body() createTweetInfoDto: CreateTweetInfoDto) {
-    return this.tweetInfoService.create(createTweetInfoDto);
+  create(
+    @Body() createTweetInfoDto: CreateTweetInfoDto,
+    @Req() req: express.Request,
+  ) {
+    return this.tweetInfoService.create(createTweetInfoDto, req.user as User);
   }
 
   @Patch(':id')

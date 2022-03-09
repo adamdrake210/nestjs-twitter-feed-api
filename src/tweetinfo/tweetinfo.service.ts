@@ -1,6 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateTweetInfoDto } from './dto/create-tweetinfo.dto';
 import { UpdateTweetInfoDto } from './dto/update-tweetinfo.dto';
@@ -11,6 +17,8 @@ export class TweetInfoService {
   constructor(
     @InjectRepository(TweetInfo)
     private readonly tweetInfoRepository: Repository<TweetInfo>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   findAll(paginationQuery: PaginationQueryDto) {
@@ -30,8 +38,21 @@ export class TweetInfoService {
     return tweetInfo;
   }
 
-  async create(createTweetInfoDto: CreateTweetInfoDto) {
+  async create(createTweetInfoDto: CreateTweetInfoDto, { username }: User) {
     const tweetInfo = await this.tweetInfoRepository.create(createTweetInfoDto);
+    const user = await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException(`User for #${username} not found`);
+    }
+    if (user.tweetinfo !== null) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+    user.tweetinfo = tweetInfo;
+    await this.userRepository.save(user);
     return this.tweetInfoRepository.save(tweetInfo);
   }
 
