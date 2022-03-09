@@ -14,7 +14,6 @@ export class AuthService {
   async validateUser(username: string, password: string): Promise<any> {
     try {
       const user = await this.usersService.findOne(username);
-      console.log('user: ', user);
       const isPasswordMatching = await compare(password, user.password);
       if (!isPasswordMatching) {
         throw new HttpException(

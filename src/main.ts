@@ -21,6 +21,7 @@ async function bootstrap() {
     .setTitle('LazyTweeting')
     .setDescription('Tweeting app for lazy peeps')
     .setVersion('0.0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
