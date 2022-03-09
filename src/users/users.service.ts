@@ -37,7 +37,7 @@ export class UsersService {
       ...updateUserDto,
     });
     if (!user) {
-      throw new NotFoundException(`User for #${id} not found`);
+      throw new NotFoundException(`User with #${id} not found`);
     }
     return this.userRepository.save(user);
   }
