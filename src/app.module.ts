@@ -11,8 +11,6 @@ import * as Joi from '@hapi/joi';
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().required(),
-        // DATABASE_HOST: Joi.required(),
-        // DATABASE_PORT: Joi.number(),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -22,11 +20,6 @@ import * as Joi from '@hapi/joi';
         ssl: {
           rejectUnauthorized: false,
         },
-        // host: process.env.DATABASE_HOST,
-        // port: +process.env.DATABASE_PORT,
-        // username: process.env.DATABASE_USER,
-        // password: process.env.DATABASE_PASSWORD,
-        // database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
         synchronize: true, // disable for prod
       }),
