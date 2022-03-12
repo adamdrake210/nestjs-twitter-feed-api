@@ -19,7 +19,7 @@ import express from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { ApiResponse } from '@nestjs/swagger';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('tweetinfo')
 export class TweetinfoController {
   constructor(private readonly tweetInfoService: TweetInfoService) {}

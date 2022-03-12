@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { TweetingService } from './tweeting.service';
-
 @Controller('tweeting')
 export class TweetingController {
   constructor(private readonly tweetingService: TweetingService) {}
@@ -13,6 +12,11 @@ export class TweetingController {
   @Get(':id')
   findOneTweet(@Param('id') id: string) {
     return this.tweetingService.findOneById(id);
+  }
+
+  @Get()
+  findTweetsByQuery(@Query('query') query: string) {
+    return this.tweetingService.getRecentTweetsByQuery(query);
   }
 
   @Post('like')
