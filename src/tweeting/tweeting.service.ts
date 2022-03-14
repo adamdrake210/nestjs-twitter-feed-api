@@ -63,11 +63,19 @@ export class TweetingService {
   }
 
   async getAndRetweet(query: string) {
-    console.log('query: ', query);
     const finalTweet = await this.getTweet(query);
     console.log('🚀 ~ getAndRetweet ~ finalTweet: ', finalTweet);
     if (finalTweet) {
       await this.createReTweet(MY_TWITTER_ID, finalTweet.id);
+    }
+    return;
+  }
+
+  async getAndWriteTweet(query: string) {
+    const finalTweet = await this.getTweet(query);
+    console.log('🚀 ~ getAndWriteTweet ~ finalTweet: ', finalTweet);
+    if (finalTweet) {
+      await this.createTweet(finalTweet.text);
     }
     return;
   }

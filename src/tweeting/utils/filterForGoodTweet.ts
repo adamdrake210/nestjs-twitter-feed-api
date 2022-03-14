@@ -1,5 +1,4 @@
 export const filterForGoodTweet = (tweets: any[]) => {
-  // console.log('tweets: ', tweets);
   const goodTweets = tweets.filter((tweet) => {
     return (
       !tweet.text.includes('@') &&
