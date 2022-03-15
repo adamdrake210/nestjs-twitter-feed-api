@@ -1,2 +1,2 @@
-- change username to email
 - store twitterid in user model
+- registering produces access token too

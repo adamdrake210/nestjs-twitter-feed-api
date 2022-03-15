@@ -37,15 +37,15 @@ export class TweetInfoService {
     return tweetInfo;
   }
 
-  async create(createTweetInfoDto: CreateTweetInfoDto, { username }: User) {
+  async create(createTweetInfoDto: CreateTweetInfoDto, { email }: User) {
     const tweetInfo = await this.tweetInfoRepository.create(createTweetInfoDto);
     const user = await this.userRepository.findOne({
       where: {
-        username,
+        email,
       },
     });
     if (!user) {
-      throw new NotFoundException(`User for #${username} not found`);
+      throw new NotFoundException(`User for #${email} not found`);
     }
     if (user.tweetinfo !== null) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
