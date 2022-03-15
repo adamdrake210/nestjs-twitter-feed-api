@@ -7,8 +7,6 @@ export const filterForGoodTweet = (tweets: any[]) => {
     );
   });
 
-  console.log('goodTweets', goodTweets);
-
   if (goodTweets.length > 0) {
     return goodTweets[0];
   }
