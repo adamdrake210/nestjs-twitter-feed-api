@@ -11,22 +11,29 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     try {
-      const user = await this.usersService.findOne(username);
-      const isPasswordMatching = await compare(password, user.password);
-      if (!isPasswordMatching) {
-        throw new HttpException(
-          'Wrong credentials provided',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+      const user = await this.usersService.findOne(email);
+      await this.verifyPassword(password, user.password);
       if (user) {
         const { password, ...result } = user;
         return result;
       }
       return null;
     } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  private async verifyPassword(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ) {
+    const isPasswordMatching = await compare(plainTextPassword, hashedPassword);
+    if (!isPasswordMatching) {
       throw new HttpException(
         'Wrong credentials provided',
         HttpStatus.BAD_REQUEST,
@@ -44,7 +51,6 @@ export class AuthService {
       createdUser.password = undefined;
       return createdUser;
     } catch (error) {
-      console.log('server error: ', error);
       throw new HttpException(
         'Something went wrong',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -53,7 +59,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { email: user.email, sub: user.userId };
     return {
       access_token: this.jwtService.sign(payload),
     };
