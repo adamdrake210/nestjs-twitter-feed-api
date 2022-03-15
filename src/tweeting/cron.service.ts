@@ -45,7 +45,7 @@ export class CronService {
   @Cron('* * * * *')
   async cronCreateTweet() {
     try {
-      console.log('🚀 ~ Running the Retweet Job');
+      console.log('🚀 ~ Running the Create Tweet Job');
       const tweetInfo = await this.tweetInfoService.findOne('1');
       const { tweettopics } = tweetInfo;
       const chosenTopic =
