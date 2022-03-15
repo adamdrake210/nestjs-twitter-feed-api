@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { TweetingService } from './tweeting.service';
+
 @UseGuards(JwtAuthGuard)
 @Controller('tweeting')
 export class TweetingController {
