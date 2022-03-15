@@ -42,7 +42,7 @@ export class CronService {
     }
   }
 
-  @Cron('* * * * *')
+  @Cron('*/20 * * * *')
   async cronCreateTweet() {
     try {
       console.log('🚀 ~ Running the Create Tweet Job');
