@@ -17,6 +17,11 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 export class AppController {
   constructor(private authService: AuthService) {}
 
+  @Get('/')
+  home() {
+    return 'This is lazy twitter';
+  }
+
   @Post('register')
   async register(@Body() registrationData: RegisterUserDto) {
     return this.authService.register(registrationData);
