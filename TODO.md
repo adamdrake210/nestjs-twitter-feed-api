@@ -1,0 +1,2 @@
+- change username to email
+- store twitterid in user model

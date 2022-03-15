@@ -5,7 +5,9 @@ import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TweetinfoModule } from './tweetinfo/tweetinfo.module';
+import { TweetingModule } from './tweeting/tweeting.module';
 import * as Joi from '@hapi/joi';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,9 +26,11 @@ import * as Joi from '@hapi/joi';
         synchronize: true, // disable for prod
       }),
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
     TweetinfoModule,
+    TweetingModule,
   ],
   controllers: [AppController],
   providers: [],

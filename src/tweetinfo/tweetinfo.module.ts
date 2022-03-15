@@ -9,5 +9,6 @@ import { User } from 'src/users/entities/user.entity';
   imports: [TypeOrmModule.forFeature([TweetInfo, User])],
   providers: [TweetInfoService],
   controllers: [TweetinfoController],
+  exports: [TweetInfoService],
 })
 export class TweetinfoModule {}
