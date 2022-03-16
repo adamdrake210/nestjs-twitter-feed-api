@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { OpenaiService } from 'src/openai/openai.service';
 import { TweetInfoService } from 'src/tweetinfo/tweetinfo.service';
 import { TweetingService } from './tweeting.service';
+import { randomiser } from './utils/randomiser';
 
 @Injectable()
 export class CronService {
   constructor(
     private readonly tweetingService: TweetingService,
     private readonly tweetInfoService: TweetInfoService,
+    private readonly openaiService: OpenaiService,
   ) {}
 
   @Cron('*/8 * * * *')
@@ -16,8 +19,7 @@ export class CronService {
       console.log('🚀 ~ Running the Like Job');
       const tweetInfo = await this.tweetInfoService.findOne('1');
       const { tweettopics } = tweetInfo;
-      const chosenTopic =
-        tweettopics[Math.floor(Math.random() * tweettopics.length)];
+      const chosenTopic = randomiser(tweettopics);
       this.tweetingService.getAndLikeTweet(chosenTopic);
     } catch (error) {
       throw new NotFoundException(
@@ -32,8 +34,7 @@ export class CronService {
       console.log('🚀 ~ Running the Retweet Job');
       const tweetInfo = await this.tweetInfoService.findOne('1');
       const { tweettopics } = tweetInfo;
-      const chosenTopic =
-        tweettopics[Math.floor(Math.random() * tweettopics.length)];
+      const chosenTopic = randomiser(tweettopics);
       this.tweetingService.getAndRetweet(chosenTopic);
     } catch (error) {
       throw new NotFoundException(
@@ -42,18 +43,33 @@ export class CronService {
     }
   }
 
+  // @Cron('*/35 * * * *')
+  // async cronCreateTweet() {
+  //   try {
+  //     console.log('🚀 ~ Running the Create Tweet Job');
+  //     const tweetInfo = await this.tweetInfoService.findOne('1');
+  //     const { tweettopics } = tweetInfo;
+  //     const chosenTopic = randomiser(tweettopics);
+  //     this.tweetingService.getAndWriteTweet(chosenTopic);
+  //   } catch (error) {
+  //     throw new NotFoundException(
+  //       `Something went wrong creating a tweet: ${error}`,
+  //     );
+  //   }
+  // }
+
   @Cron('*/20 * * * *')
-  async cronCreateTweet() {
+  async cronCreateOpenAiTweet() {
     try {
-      console.log('🚀 ~ Running the Create Tweet Job');
+      console.log('🚀 ~ Running the Create Tweet via OpenAI');
       const tweetInfo = await this.tweetInfoService.findOne('1');
-      const { tweettopics } = tweetInfo;
-      const chosenTopic =
-        tweettopics[Math.floor(Math.random() * tweettopics.length)];
-      this.tweetingService.getAndWriteTweet(chosenTopic);
+      const { tweetquestions, tweettopics } = tweetInfo;
+      const chosenTopic = randomiser(tweettopics);
+      const chosenQuestion = randomiser(tweetquestions);
+      this.openaiService.createOpenAiTweet(chosenQuestion + chosenTopic);
     } catch (error) {
       throw new NotFoundException(
-        `Something went wrong creating a tweet: ${error}`,
+        `Something went wrong creating a tweet for openai: ${error}`,
       );
     }
   }
