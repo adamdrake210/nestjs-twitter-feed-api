@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -19,6 +20,11 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.usersService.findOneUser('' + id);
+  }
+
+  @Post('findByEmail')
+  findOneByEmail(@Body() findEmailBody: { emailAddress: string }) {
+    return this.usersService.findOneEmail(findEmailBody);
   }
 
   @Patch(':id')

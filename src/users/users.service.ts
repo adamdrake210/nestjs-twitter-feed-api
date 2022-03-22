@@ -13,11 +13,21 @@ export class UsersService {
   ) {}
 
   async findOne(email: string) {
-    return this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         email,
       },
     });
+    return user;
+  }
+
+  async findOneEmail({ emailAddress }: { emailAddress: string }) {
+    const { id, email, twitterhandle } = await this.userRepository.findOne({
+      where: {
+        email: emailAddress,
+      },
+    });
+    return { id, email, twitterhandle };
   }
 
   async findOneUser(id: string) {

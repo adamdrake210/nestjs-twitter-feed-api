@@ -12,10 +12,14 @@ import { LoginDto } from './auth/dto/login-dto';
 import { RegisterUserDto } from './auth/dto/register-user.dto';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {}
 
   @Get('/')
   home() {
@@ -37,6 +41,7 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    const { email } = req.user;
+    return this.userService.findOneEmail({ emailAddress: email });
   }
 }
