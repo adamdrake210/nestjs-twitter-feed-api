@@ -13,6 +13,6 @@ export const craftingTweetFromData = (article: any) => {
       article.tag_list[0]
     }`;
   } catch (error) {
-    console.error(error);
+    console.error('craftTweetError: ', error);
   }
 };
