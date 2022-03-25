@@ -1,2 +1,4 @@
 - store twitterid in user model
 - registering produces access token too
+- verify access token endpoint
+- thesaurus api: https://dictionaryapi.com/register/index

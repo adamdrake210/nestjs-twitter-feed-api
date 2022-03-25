@@ -9,6 +9,7 @@ import { TweetingModule } from './tweeting/tweeting.module';
 import * as Joi from '@hapi/joi';
 import { ScheduleModule } from '@nestjs/schedule';
 import { OpenaiModule } from './openai/openai.module';
+import { DevtoModule } from './devto/devto.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,7 @@ import { OpenaiModule } from './openai/openai.module';
     TweetinfoModule,
     TweetingModule,
     OpenaiModule,
+    DevtoModule,
   ],
   controllers: [AppController],
   providers: [],
