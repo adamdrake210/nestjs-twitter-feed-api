@@ -7,10 +7,18 @@ import { User } from 'src/users/entities/user.entity';
 import { CronService } from './cron.service';
 import { TweetInfoService } from 'src/tweetinfo/tweetinfo.service';
 import { OpenaiService } from 'src/openai/openai.service';
+import { DevtoService } from 'src/devto/devto.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TweetInfo, User])],
+  imports: [TypeOrmModule.forFeature([TweetInfo, User]), HttpModule],
   controllers: [TweetingController],
-  providers: [TweetingService, CronService, TweetInfoService, OpenaiService],
+  providers: [
+    TweetingService,
+    CronService,
+    TweetInfoService,
+    OpenaiService,
+    DevtoService,
+  ],
 })
 export class TweetingModule {}
