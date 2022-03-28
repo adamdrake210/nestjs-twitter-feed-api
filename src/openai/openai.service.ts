@@ -11,8 +11,8 @@ const openai = new OpenAIApi(configuration);
 export class OpenaiService {
   constructor(private readonly tweetingService: TweetingService) {}
 
-  create(prompt: string) {
-    return openai.createCompletion('text-davinci-001', {
+  async create(prompt: string) {
+    const openAiResponse = await openai.createCompletion('text-davinci-001', {
       prompt,
       max_tokens: 45,
       temperature: 1,
@@ -20,21 +20,24 @@ export class OpenaiService {
       n: 1,
       stop: '.',
     });
+    return openAiResponse.data.choices[0].text;
   }
 
   async createOpenAiTweet(question: string) {
     const finalOpenAiText = await this.create(question);
     console.log(
       '🚀 ~ file: createOpenAiTweet.ts ~ line 9 ~ createOpenAiTweet ~ finalOpenAiText',
-      finalOpenAiText?.data?.choices,
+      finalOpenAiText,
     );
-    if (
-      finalOpenAiText?.data?.choices &&
-      finalOpenAiText?.data?.choices.length > 0
-    ) {
-      await this.tweetingService.createTweet(
-        finalOpenAiText.data.choices[0].text,
-      );
+    if (finalOpenAiText) {
+      await this.tweetingService.createTweet(finalOpenAiText);
+    }
+  }
+
+  async anotherWayToSay(text: string) {
+    const finalOpenAiText = await this.create(`Another way to say "${text}"`);
+    if (finalOpenAiText) {
+      return finalOpenAiText;
     }
   }
 }
