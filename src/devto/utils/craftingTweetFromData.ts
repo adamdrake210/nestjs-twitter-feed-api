@@ -7,7 +7,7 @@ const findingTwitterHandle = (twitter_username: string | null) => {
 
 export const craftingTweetFromData = (article: any) => {
   try {
-    return `Read this very interesting article ${
+    return `I just read this very cool article ${
       article.url
     } ${findingTwitterHandle(article.user.twitter_username)} #${
       article.tag_list[0]

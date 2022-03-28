@@ -15,7 +15,7 @@ export class CronService {
     private readonly devtoService: DevtoService,
   ) {}
 
-  @Cron('*/8 * * * *')
+  @Cron('*/28 * * * *')
   async cronLikeTweet() {
     try {
       console.log('🚀 ~ Running the Like Job');
@@ -30,7 +30,7 @@ export class CronService {
     }
   }
 
-  @Cron('*/11 * * * *')
+  @Cron('*/23 * * * *')
   async cronRetweet() {
     try {
       console.log('🚀 ~ Running the Retweet Job');
@@ -76,7 +76,7 @@ export class CronService {
     }
   }
 
-  @Cron('*/20 * * * *')
+  @Cron('*/32 * * * *')
   async cronCreateDevToTweet() {
     try {
       console.log('🚀 ~ Running the Create Article Tweet via DevTo');
