@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -12,7 +17,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findOne(email: string) {
+  async findOneUserByEmailWPassword(email: string) {
     const user = await this.userRepository.findOne({
       where: {
         email,
@@ -21,7 +26,7 @@ export class UsersService {
     return user;
   }
 
-  async findOneEmail({ emailAddress }: { emailAddress: string }) {
+  async findOneUserByEmail({ emailAddress }: { emailAddress: string }) {
     const { id, email, twitterhandle } = await this.userRepository.findOne({
       where: {
         email: emailAddress,
@@ -30,9 +35,26 @@ export class UsersService {
     return { id, email, twitterhandle };
   }
 
-  async findOneUser(id: string) {
-    const { password, ...result } = await this.userRepository.findOne(id);
-    return result;
+  async findOneUserById(id: number) {
+    const { password, ...result } = await this.userRepository.findOne({ id });
+    if (result) {
+      return result;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  async findOneUserByIdWPassword(id: number) {
+    const user = await this.userRepository.findOne({ id });
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async create(createUserDto: CreateUserDto) {

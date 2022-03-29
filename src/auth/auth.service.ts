@@ -3,17 +3,20 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { hash, compare } from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
+import { TokenPayload } from './tokenPayload.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     try {
-      const user = await this.usersService.findOne(email);
+      const user = await this.usersService.findOneUserByEmailWPassword(email);
       await this.verifyPassword(password, user.password);
       if (user) {
         const { password, ...result } = user;
@@ -58,10 +61,15 @@ export class AuthService {
     }
   }
 
-  async login(user: any) {
-    const payload = { email: user.email, sub: user.userId };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+  public getCookieWithJwtToken(userId: number) {
+    const payload: TokenPayload = { userId };
+    const token = this.jwtService.sign(payload);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_EXPIRATION_TIME',
+    )}`;
+  }
+
+  public getCookieForLogOut() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
 }
