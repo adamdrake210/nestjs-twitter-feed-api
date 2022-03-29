@@ -20,7 +20,7 @@ import { Response } from 'express';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
-export class AuthenticationController {
+export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
