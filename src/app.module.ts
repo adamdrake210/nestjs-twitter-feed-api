@@ -10,13 +10,16 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { OpenaiModule } from './openai/openai.module';
 import { DevtoModule } from './devto/devto.module';
 import { AuthController } from './auth/auth.controller';
+import { AppController } from './app.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().required(),
-        JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRATION_TIME: Joi.string().required(),
+        JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
+        JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -38,7 +41,7 @@ import { AuthController } from './auth/auth.controller';
     OpenaiModule,
     DevtoModule,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AppController],
   providers: [],
 })
 export class AppModule {}

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { TweetInfo } from 'src/tweetinfo/entities/tweetinfo.entity';
 import {
   Column,
@@ -17,6 +18,12 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({
+    nullable: true,
+  })
+  @Exclude()
+  public currentHashedRefreshToken?: string;
 
   @Column({ unique: true })
   twitterhandle: string;
