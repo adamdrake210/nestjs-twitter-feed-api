@@ -30,7 +30,6 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-
   SwaggerModule.setup('api', app, document, {
     customSiteTitle: 'Lazy Tweet API docs',
   });
