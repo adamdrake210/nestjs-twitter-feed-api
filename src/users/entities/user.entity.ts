@@ -19,6 +19,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({
+    nullable: true,
+  })
   @Exclude()
   public currentHashedRefreshToken?: string;
 

@@ -10,6 +10,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { OpenaiModule } from './openai/openai.module';
 import { DevtoModule } from './devto/devto.module';
 import { AuthController } from './auth/auth.controller';
+import { AppController } from './app.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -40,7 +41,7 @@ import { AuthController } from './auth/auth.controller';
     OpenaiModule,
     DevtoModule,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AppController],
   providers: [],
 })
 export class AppModule {}

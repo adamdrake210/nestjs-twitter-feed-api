@@ -52,6 +52,7 @@ export class AuthService {
         password: hashedPassword,
       });
       createdUser.password = undefined;
+      createdUser.currentHashedRefreshToken = undefined;
       return createdUser;
     } catch (error) {
       throw new HttpException(
