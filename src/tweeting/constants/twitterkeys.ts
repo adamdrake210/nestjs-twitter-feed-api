@@ -6,4 +6,5 @@ export const twitterKeys = {
   bearerToken: process.env.TWITTER_BEARER_TOKEN,
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
   accessTokenSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+  myId: process.env.MY_TWITTER_ID,
 };
