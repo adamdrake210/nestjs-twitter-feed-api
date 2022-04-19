@@ -10,8 +10,6 @@ const twitterClient = new TwitterApi({
   accessSecret: twitterKeys.accessTokenSecret,
 });
 
-const MY_TWITTER_ID = '2458002092';
-
 @Injectable()
 export class TweetingService {
   async findOneById(id: string) {
@@ -58,7 +56,7 @@ export class TweetingService {
     const finalTweet = await this.getTweet(query);
     console.log('🚀 ~ getAndLike ~ finalTweet: ', finalTweet);
     if (finalTweet) {
-      await this.likeTweet(MY_TWITTER_ID, finalTweet.id);
+      await this.likeTweet(twitterKeys.myId, finalTweet.id);
     }
   }
 
@@ -66,7 +64,7 @@ export class TweetingService {
     const finalTweet = await this.getTweet(query);
     console.log('🚀 ~ getAndRetweet ~ finalTweet: ', finalTweet);
     if (finalTweet) {
-      await this.createReTweet(MY_TWITTER_ID, finalTweet.id);
+      await this.createReTweet(twitterKeys.myId, finalTweet.id);
     }
     return;
   }
