@@ -16,7 +16,11 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  });
   app.use(cookieParser());
 
   const options = new DocumentBuilder()
