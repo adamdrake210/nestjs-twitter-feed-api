@@ -51,6 +51,7 @@ export class AuthController {
 
     res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie]);
     user.password = undefined;
+    user.currentHashedRefreshToken = undefined;
     return res.send(user);
   }
 
