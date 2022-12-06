@@ -4,7 +4,7 @@
 
 # NestJS Twitter API Feed
 
-An api for lazy twitterers
+An api for lazy twitterers.
 
 ## Installation
 
